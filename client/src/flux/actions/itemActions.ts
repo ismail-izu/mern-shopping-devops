@@ -7,7 +7,7 @@ import { IItem } from '../../types/interfaces';
 export const getItems = () => (dispatch: Function) => {
   dispatch(setItemsLoading());
   axios
-    .get('/api/items')
+    .get('http://localhost:5001/api/items')
     .then(res =>
       dispatch({
         type: GET_ITEMS,
@@ -24,7 +24,7 @@ export const addItem = (item: IItem) => (
   getState: Function
 ) => {
   axios
-    .post('/api/items', item, tokenConfig(getState))
+    .post('http://localhost:5001/api/items', item, tokenConfig(getState))
     .then(res =>
       dispatch({
         type: ADD_ITEM,
@@ -41,7 +41,7 @@ export const deleteItem = (id: string) => (
   getState: Function
 ) => {
   axios
-    .delete(`/api/items/${id}`, tokenConfig(getState))
+    .delete(`http://localhost:5001/api/items/${id}`, tokenConfig(getState))
     .then(res =>
       dispatch({
         type: DELETE_ITEM,
