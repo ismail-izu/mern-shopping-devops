@@ -1,0 +1,34 @@
+version: '3.8'  # 1️⃣ Compose file format version
+
+services:
+  backend:      # 2️⃣ Service name for Node.js backend
+    build: .    # 3️⃣ Build Dockerfile from root folder
+    ports:
+      - '5001:5001'  # 4️⃣ Map host:container port
+    environment:     # 5️⃣ Environment variables (can also use .env)
+      - MONGO_URI=mongodb://db:27017/shopping
+      - JWT_SECRET=N8pZxE2FLmKyWvZgT/hzTVa7hqJ60aVv8zWh9mlV2NA=
+      - PORT=5001
+    depends_on:
+      - db           # 6️⃣ Wait for MongoDB before starting backend
+    volumes:
+      - .:/app       # 7️⃣ Mount code for live updates (optional)
+
+  frontend:     # 8️⃣ React frontend service
+    build: ./client  # 9️⃣ Dockerfile inside client/
+    ports:
+      - '3000:80'     # 10️⃣ NGINX serves React on port 80 internally
+    depends_on:
+      - backend       # 11️⃣ Wait until backend is up
+    volumes:
+      - ./client:/app
+
+  db:           # 12️⃣ MongoDB database container
+    image: mongo:6    # 13️⃣ Use official MongoDB image
+    ports:
+      - '27017:27017' # 14️⃣ Expose MongoDB port
+    volumes:
+      - mongo-data:/data/db  # 15️⃣ Persist MongoDB data
+
+volumes:
+  mongo-data:   # 16️⃣ Named volume to persist DB between restarts

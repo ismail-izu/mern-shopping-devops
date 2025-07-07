@@ -27,7 +27,8 @@ app.use(morgan('dev'));
 app.use(bodyParser.json());
 
 // DB Config
-const db = `${MONGO_URI}/${MONGO_DB_NAME}`;
+// const db = `${MONGO_URI}/${MONGO_DB_NAME}`;
+const db = MONGO_URI;
 
 // Connect to Mongo
 mongoose
